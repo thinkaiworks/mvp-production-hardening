@@ -1,0 +1,3 @@
+# Deliberately insecure demo app generator and the rule definitions themselves
+scripts/demo-app.js
+lib/checks.js

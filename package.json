@@ -1,0 +1,14 @@
+{
+  "name": "launch-check",
+  "version": "1.0.0",
+  "description": "Production-readiness scanner for AI-built MVPs (Lovable, Bolt, v0, Replit, Claude Code, Cursor): leaked keys, Supabase RLS, Stripe webhooks, unauthenticated APIs and more.",
+  "type": "module",
+  "bin": { "launch-check": "bin/launch-check.js" },
+  "scripts": {
+    "scan": "node bin/launch-check.js",
+    "demo": "node scripts/demo.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT"
+}

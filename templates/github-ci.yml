@@ -1,0 +1,41 @@
+# Copy to .github/workflows/ci.yml
+# Runs on every push and pull request: install, lint, type-check, test, build, and launch-check.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint --if-present
+
+      - name: Type-check
+        run: npx tsc --noEmit
+        if: hashFiles('tsconfig.json') != ''
+
+      - name: Test
+        run: npm test --if-present
+
+      - name: Build
+        run: npm run build --if-present
+        env:
+          # Public, non-secret placeholders so the build can complete in CI
+          NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder
+
+      - name: Launch check (fails on critical issues)
+        run: npx --yes github:thinkaiworks/mvp-production-hardening . --fail-on critical
